@@ -1,0 +1,82 @@
+experiment:
+  name: final_one_second_multiresolution_professor_extension
+  random_seed: 42
+  rated_power_kw: 10.0
+  nrmse_denominator: 2.0
+
+paths:
+  one_second_hdf: ../data/raw/solete_official/SOLETE_Pombo_1sec.h5
+  one_minute_hdf: ../data/raw/solete_official/SOLETE_Pombo_1min.h5
+  one_minute_manifest: outputs/one_minute/notebook_04_split_windowing/selected_physics/window_ready_manifest.json
+  one_minute_feature_report: outputs/03_physics_informed_features/physics_informed_feature_report.csv
+  one_minute_results: outputs/07_classical_ml_models/ml_results_train_validation_test.csv
+  one_minute_summary: outputs/07_classical_ml_models/ml_results_summary.csv
+  stage_c_tradeoff: outputs/07_classical_ml_models/stage_c_final_controlled_30_performance_inference_tradeoff.csv
+  output: outputs/reports/final_one_second_professor_extension
+  temporary: tmp/final_one_second_professor_extension
+
+data:
+  hdf_key: /DATA
+  timestamp_source: index
+  pv_power_column: P_Solar[kW]
+  selected_original_columns:
+    - P_Solar[kW]
+    - POA Irr[kW1m2]
+    - GHI[kW1m2]
+    - Elevation[deg]
+    - Azimuth[deg]
+    - TEMPERATURE[degC]
+    - HUMIDITY[%]
+    - WIND_SPEED[m1s]
+    - WIND_DIR[deg]
+  minute_descriptor_variables:
+    pv: P_Solar[kW]
+    poa: POA Irr[kW1m2]
+    ghi: GHI[kW1m2]
+  productive_elevation_threshold_deg: 0.0
+  productive_power_threshold_kw: 0.05
+
+second_level:
+  resource_tier: 2
+  anchor_interval_seconds: 30
+  physical_history_seconds: 480
+  chunk_rows: 600000
+  lags_seconds: [1, 2, 5, 10, 15, 30, 60, 120, 300, 480]
+  rolling_windows_seconds: [5, 15, 30, 60, 120, 300, 480]
+  extended_rolling_windows_seconds: [60, 480]
+  event_percentiles: [90, 95, 99]
+  primary_event_percentile: 95
+
+minute_level:
+  lookback_steps: 8
+  horizon_steps: 1
+  high_frequency_context_lags: [1, 7]
+  high_frequency_context_window: 8
+  strong_ramp_threshold_pu: 0.01
+
+models:
+  hist_gradient_boosting:
+    loss: squared_error
+    max_iter: 50
+    max_leaf_nodes: 31
+    learning_rate: 0.08
+    l2_regularization: 0.0
+    early_stopping: true
+    random_state: 42
+  extra_trees:
+    n_estimators: 120
+    min_samples_leaf: 2
+    max_features: sqrt
+    n_jobs: -1
+    random_state: 42
+    maximum_safe_estimated_gb: 1.5
+
+statistics:
+  bootstrap_replicates: 1000
+  confidence_level: 0.95
+  bootstrap_block: complete_day
+
+clearml:
+  enabled_if_configured: true
+  project_name: PV_Ramp_SOLETE
+  task_name: final_one_second_multiresolution_professor_extension

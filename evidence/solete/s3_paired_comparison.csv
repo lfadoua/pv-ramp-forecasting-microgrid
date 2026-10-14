@@ -1,0 +1,5 @@
+metric,aligned_test_rows,existing_reference,high_frequency,high_frequency_minus_reference,relative_difference_percent,favorable_direction,point_result
+RMSE,98695,0.034046179845671765,0.02693913061312743,-0.007107049232544335,-20.874733273336226,negative,high_frequency_favored
+MAE,98695,0.011096085057643397,0.00831955327031642,-0.0027765317873269767,-25.0226253034569,negative,high_frequency_favored
+strong_ramp_RMSE,98695,0.08475410530105293,0.06680752568614425,-0.017946579614908684,-21.174879436413246,negative,high_frequency_favored
+directional_accuracy,98695,0.4829930594255028,0.49477683773240794,0.011783778306905135,2.439740711993124,positive,high_frequency_favored

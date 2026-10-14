@@ -1,0 +1,151 @@
+[
+  {
+    "original_relative_path": "outputs/07_classical_ml_models/stage_c_final_controlled_30_results_summary.csv",
+    "original_sha256": "a037f1266eabfb4eeee6085f4af0b75096b5e8ccdda96898307cda643a2ab20b",
+    "publication_path": "evidence/solete/archived_stage_c_summary.csv",
+    "publication_sha256": "1b080ae11399cb2e5607e92edb5de90b4003586d15c5b4212627e2997407e34c",
+    "sanitized": true
+  },
+  {
+    "original_relative_path": "outputs/07_classical_ml_models/stage_c_final_controlled_30_train_validation_test.csv",
+    "original_sha256": "f235ca2ef6bec267ce2e1435d8b457cc55a88d65d1f75d1be907df0874578c23",
+    "publication_path": "evidence/solete/archived_stage_c_train_validation_test.csv",
+    "publication_sha256": "980fee2cbbf5a90313c32607e4cc75de963eb37d403cfb911ce7ddda007e0153",
+    "sanitized": true
+  },
+  {
+    "original_relative_path": "rapport_finale/Rapport_final_PFE_PV_Ramp_Forecasting/chapter_05_results_selection/source_data/baseline_results_train_validation_test.csv",
+    "original_sha256": "ef48ca2ffbd9d7d8bbb0f879c60023effb152c7cf267734d9ebd08603504de00",
+    "publication_path": "evidence/solete/baseline_results.csv",
+    "publication_sha256": "354a6af06f08e0350fab5ef4fbf025511da8671684d268eae5469316573934b7",
+    "sanitized": true
+  },
+  {
+    "original_relative_path": "rapport_finale/Rapport_final_PFE_PV_Ramp_Forecasting/chapter_05_results_selection/source_data/deep_learning_h1_results_summary.csv",
+    "original_sha256": "a22274aeda713a1032759d77aea59ddbaa6d568cfd405023b048cab4c189ea73",
+    "publication_path": "evidence/solete/deep_learning_h1.csv",
+    "publication_sha256": "a22274aeda713a1032759d77aea59ddbaa6d568cfd405023b048cab4c189ea73",
+    "sanitized": false
+  },
+  {
+    "original_relative_path": "rapport_finale/Rapport_final_PFE_PV_Ramp_Forecasting/chapter_05_results_selection/source_data/deep_learning_h8_h16_results_summary.csv",
+    "original_sha256": "bb80417170bdfcffdb15e1b76a17323fb9e262e3603f545665d485e310f9f057",
+    "publication_path": "evidence/solete/deep_learning_h8_h16.csv",
+    "publication_sha256": "bb80417170bdfcffdb15e1b76a17323fb9e262e3603f545665d485e310f9f057",
+    "sanitized": false
+  },
+  {
+    "original_relative_path": "rapport_finale/Rapport_final_PFE_PV_Ramp_Forecasting/chapter_05_results_selection/source_data/feature_classification_audit.csv",
+    "original_sha256": "0a3ee2403f8adc4c1903de58fc030495bc6481c2f5ece1553ce87037acc0ecd8",
+    "publication_path": "evidence/solete/feature_classification.csv",
+    "publication_sha256": "9f49a87f3f7dd27d73c34eaa51c2bf94b003e5a7fbb7d375c47f468c45a28b52",
+    "sanitized": true
+  },
+  {
+    "original_relative_path": "rapport_finale/Rapport_final_PFE_PV_Ramp_Forecasting/chapter_05_results_selection/source_data/official_one_minute_aggregation_alignment.csv",
+    "original_sha256": "db30c47b055ee7092ab04d806fd91f668624731a3efadda384e3f5e4ed9bbbbb",
+    "publication_path": "evidence/solete/source_aggregation_alignment.csv",
+    "publication_sha256": "7890df6fdbe8bf16c36a429e4ffa0363649fe06aefd2d48c1188b2e5f21124bc",
+    "sanitized": true
+  },
+  {
+    "original_relative_path": "rapport_finale/Rapport_final_PFE_PV_Ramp_Forecasting/chapter_05_results_selection/source_data/split_metadata_all_variants.csv",
+    "original_sha256": "fe02b7f4c4642b8cb24470c3bbf4f12183ab1fd9093463ffa0ab0e24649e10b9",
+    "publication_path": "evidence/solete/split_metadata.csv",
+    "publication_sha256": "8c1006addf47009998aa5da2d0b590bce8dccf7c4511d5c978250cf45f3f1eb2",
+    "sanitized": true
+  },
+  {
+    "original_relative_path": "rapport_finale/Rapport_final_PFE_PV_Ramp_Forecasting/chapter_05_results_selection/source_data/statistical_results_summary.csv",
+    "original_sha256": "aa661f57cb028572bdf5c12fb099f0a53b32e19a0bca8847cdacb6b20f9e4023",
+    "publication_path": "evidence/solete/statistical_summary.csv",
+    "publication_sha256": "1dc1fec651c156106be88b89e46554252b0f3c590e0f91d78f25134db3148111",
+    "sanitized": true
+  },
+  {
+    "original_relative_path": "outputs/reports/final_one_second_professor_extension/tables/one_second_experiment_results.csv",
+    "original_sha256": "a5f1e6fe967e1379b3dd6686633b3df0cf1ae54d3b48995b6e141bd05b87fab4",
+    "publication_path": "evidence/solete/s1_s2_s3_results.csv",
+    "publication_sha256": "b8b30f1c48b373bd1417607b00e79bc9a49c5ca87b7a6342d01f861295893121",
+    "sanitized": true
+  },
+  {
+    "original_relative_path": "outputs/reports/final_one_second_professor_extension/tables/s1_s2_anchor_sampling_audit.csv",
+    "original_sha256": "6dfc4ddf1a821ed32ce2b07e758b9b46f1df0ab0c27cc6f18aa03b2292891eb5",
+    "publication_path": "evidence/solete/s1_s2_sampling.csv",
+    "publication_sha256": "0d0b39b110e63c176425afc49c15dfccd20dc4db2dfb6bb50d3d4907aae27adc",
+    "sanitized": true
+  },
+  {
+    "original_relative_path": "outputs/reports/final_one_second_professor_extension/tables/s3_block_bootstrap_confidence_intervals.csv",
+    "original_sha256": "264c25c13eb142ca3c79130d75356436adbd2ee13fa71e8c70ab871fdfaf7de9",
+    "publication_path": "evidence/solete/s3_bootstrap.csv",
+    "publication_sha256": "05100383dd5cf7c6cd58cb1927e7b7401dc8356bdd5a6e0c6b4a08d889749ea9",
+    "sanitized": true
+  },
+  {
+    "original_relative_path": "outputs/reports/final_one_second_professor_extension/tables/s3_same_target_paired_comparison.csv",
+    "original_sha256": "e32498dfe812a988713418fce9e3f2940ebd55b1837703a7b5aeda4536e86ed2",
+    "publication_path": "evidence/solete/s3_paired_comparison.csv",
+    "publication_sha256": "994ffc1a4956c78c63ec6f1867f113d0d8f210e63f5e0ade02e7f5fda54f243e",
+    "sanitized": true
+  },
+  {
+    "original_relative_path": "outputs/reports/final_one_second_professor_extension/tables/target_definitions_and_alignment.csv",
+    "original_sha256": "e44f81fa611b191e750cee6bb9086e073e9fe1162557d89bc9c0412b3bcf1bf2",
+    "publication_path": "evidence/solete/target_definitions.csv",
+    "publication_sha256": "5dffa44342f34550fcf1605618bea1e0c67c0fc73f2a2c9bcdfd62d79e9b2c2c",
+    "sanitized": true
+  },
+  {
+    "original_relative_path": "outputs/reports/final_one_second_professor_extension/final_one_second_professor_extension_summary.json",
+    "original_sha256": "d9022e9daba017281d4939aadbb90ecfbeb5c33a515ac4a3b5555f87f1ec96c8",
+    "publication_path": "evidence/solete/s1_s2_s3_summary.json",
+    "publication_sha256": "b355e015fafa71cb86f483c73f7833c3a247e05e1b64b68d7a797ffb0d3deb20",
+    "sanitized": true
+  },
+  {
+    "original_relative_path": "external_validation/UNSW_S1_S2_S3_v1/05_results/mean_std_across_days.csv",
+    "original_sha256": "8efd0ef54ccedf4bc71f4d7949bb08ead3b561277588ba5939e752185f661f58",
+    "publication_path": "evidence/unsw/mean_std_across_days.csv",
+    "publication_sha256": "8efd0ef54ccedf4bc71f4d7949bb08ead3b561277588ba5939e752185f661f58",
+    "sanitized": false
+  },
+  {
+    "original_relative_path": "external_validation/UNSW_S1_S2_S3_v1/05_results/per_day_metrics.csv",
+    "original_sha256": "77ea1be4a663d0b0cc7aebe24b8bf3a33ec6e4afb25c952c3219de7abde3fe05",
+    "publication_path": "evidence/unsw/per_day_metrics.csv",
+    "publication_sha256": "77ea1be4a663d0b0cc7aebe24b8bf3a33ec6e4afb25c952c3219de7abde3fe05",
+    "sanitized": false
+  },
+  {
+    "original_relative_path": "external_validation/UNSW_S1_S2_S3_v1/05_results/pooled_metrics_secondary.csv",
+    "original_sha256": "a9c5e1d1fc2a28bde0ab69f5f103c2041ff280eb6953a45a87df7a416a97813d",
+    "publication_path": "evidence/unsw/pooled_metrics_secondary.csv",
+    "publication_sha256": "a9c5e1d1fc2a28bde0ab69f5f103c2041ff280eb6953a45a87df7a416a97813d",
+    "sanitized": false
+  },
+  {
+    "original_relative_path": "external_validation/UNSW_S1_S2_S3_v1/05_results/s3_paired_comparison.csv",
+    "original_sha256": "b5117150c7c6752b5077e74af82a78f5e5184ba54b51b8368e015cc368528bce",
+    "publication_path": "evidence/unsw/s3_paired_comparison.csv",
+    "publication_sha256": "b5117150c7c6752b5077e74af82a78f5e5184ba54b51b8368e015cc368528bce",
+    "sanitized": false
+  },
+  {
+    "original_relative_path": "outputs/07_classical_ml_models/stage_c_final_controlled_30_results_summary.csv",
+    "original_sha256": "a037f1266eabfb4eeee6085f4af0b75096b5e8ccdda96898307cda643a2ab20b",
+    "publication_path": "evidence/solete/stage_c_summary_canonical.csv",
+    "publication_sha256": "3cf7eed7d8ce3ea780fab5add93128ef1f8e607d2ea68b45e3993591a26fcba5",
+    "sanitized": true,
+    "transformation": "Derived RMSE/2 values or correction log from the archived Stage C summary; no RMSE/model selection change."
+  },
+  {
+    "original_relative_path": "outputs/07_classical_ml_models/stage_c_final_controlled_30_results_summary.csv",
+    "original_sha256": "a037f1266eabfb4eeee6085f4af0b75096b5e8ccdda96898307cda643a2ab20b",
+    "publication_path": "evidence/solete/nrmse_corrections.json",
+    "publication_sha256": "f4f32ba309946790dbaa1522318379de5343225caa25932fbf4d294c32a8b95f",
+    "sanitized": true,
+    "transformation": "Derived RMSE/2 values or correction log from the archived Stage C summary; no RMSE/model selection change."
+  }
+]

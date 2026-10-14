@@ -1,0 +1,5 @@
+target_id,formula,input_cutoff,target_timestamp,lead_time_seconds,target_duration_seconds,baseline,operational_interpretation,leakage_safety_status
+existing_article,r[t]=(P[t]-P[t-1])/10,forecast origin t after L input rows,"t+H; for H=1, t+1",60 at one-minute resolution; 3600 at one-hour resolution,one sampling interval,r[t] carried to r[t+H],next aggregated-interval PV ramp,verified
+S1,(p[s+1]-p[s])/10,second s,s+1,1,1,r[s],immediate next-second PV change,verified
+S2,(p[s+60]-p[s+59])/10,second s,s+60,60,1,r[s],instantaneous one-second PV change one minute ahead,verified; not a net 60-second change
+S3,(Pbar[m+1]-Pbar[m])/10,end of completed minute m,m+1,60,60,r[m],article's exact next-minute target from high-frequency context,verified; no seconds from m+1

@@ -1,0 +1,38 @@
+[
+  {
+    "config_id": "stage_c__one_minute__selected_physics__ExtraTrees__L08__H01",
+    "column": "validation_nrmse",
+    "archived": 0.0353982103344616,
+    "canonical": 0.01820863281511415
+  },
+  {
+    "config_id": "stage_c__one_minute__selected_physics__ExtraTrees__L08__H01",
+    "column": "test_nrmse",
+    "archived": 0.0369677517544754,
+    "canonical": 0.01726658889793475
+  },
+  {
+    "config_id": "stage_c__one_minute__selected_physics__ExtraTrees__L16__H08",
+    "column": "validation_nrmse",
+    "archived": 0.0381210974710638,
+    "canonical": 0.0196092700676455
+  },
+  {
+    "config_id": "stage_c__one_minute__selected_physics__ExtraTrees__L16__H08",
+    "column": "test_nrmse",
+    "archived": 0.039838894860871,
+    "canonical": 0.0186076184529515
+  },
+  {
+    "config_id": "stage_c__one_minute__selected_physics__ExtraTrees__L32__H16",
+    "column": "validation_nrmse",
+    "archived": 0.0379244478181789,
+    "canonical": 0.01950811463383205
+  },
+  {
+    "config_id": "stage_c__one_minute__selected_physics__ExtraTrees__L32__H16",
+    "column": "test_nrmse",
+    "archived": 0.0398080836276523,
+    "canonical": 0.01859322739933915
+  }
+]

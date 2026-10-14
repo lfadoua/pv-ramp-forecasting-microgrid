@@ -1,0 +1,65 @@
+# Credentials and local environments
+.env
+.env.*
+!.env.example
+kaggle.json
+clearml.conf
+*.pem
+*.key
+.venv/
+venv/
+__pycache__/
+*.egg-info/
+build/
+dist/
+*.py[cod]
+.pytest_cache/
+.ipynb_checkpoints/
+# Data, training artifacts, generated jobs and manuscripts remain local
+data/
+outputs/
+tmp/
+kaggle_jobs/
+notebooks/
+*.h5
+*.hdf5
+*.parquet
+*.npy
+*.npz
+*.joblib
+*.pkl
+*.zip
+*.7z
+*.log
+*.tmp
+*.aux
+*.bcf
+*.blg
+*.run.xml
+*.synctex.gz
+# The audited compact evidence copies are intentionally versioned.
+!evidence/
+!evidence/**
+
+# Thesis, manuscript and presentation files are excluded from this pipeline repository.
+*.pdf
+*.ppt
+*.pptx
+*.pps
+*.ppsx
+*.doc
+*.docx
+*.odt
+*.odp
+*.tex
+*.bib
+rapport_finale/
+presentation*/
+Journal_article/
+Conference_or_Journal/
+PFE_Report*
+Memoire*
+
+# Keep only installation/execution documentation in the publication.
+*.md
+!README.md

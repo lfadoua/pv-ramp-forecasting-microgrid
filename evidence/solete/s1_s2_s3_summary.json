@@ -1,0 +1,1265 @@
+{
+  "execution_status": "completed_with_documented_validation_warnings",
+  "execution_date": "2026-07-13T17:24:22.704222+00:00",
+  "data_source": {
+    "path": "WORKSPACE_ROOT\\data\\raw\\solete_official\\SOLETE_Pombo_1sec.h5",
+    "official_figshare_file_id": 40097851,
+    "official_download_url": "https://ndownloader.figshare.com/files/40097851",
+    "size_bytes": 3790548136,
+    "sha256": "f01977de38dcd017126be2651589837a7c382996be7898825e8b96ea911ce1d1",
+    "rows": 39484801,
+    "columns": 11,
+    "stored_row_order_was_chronological": false,
+    "stored_order_discontinuities": 456,
+    "chronological_normalization": "direct scatter by integer second offset from global minimum timestamp"
+  },
+  "data_span": {
+    "start": "2018-06-01T00:00:00",
+    "end": "2019-09-01T00:00:00"
+  },
+  "environment": {
+    "operating_system": "Windows-10-10.0.26200-SP0",
+    "python_version": "3.11.9",
+    "processor": "Intel64 Family 6 Model 142 Stepping 10, GenuineIntel",
+    "logical_cpu_count": 8,
+    "total_ram_gb": 7.854160308837891,
+    "available_ram_gb_at_preflight": 2.22210693359375,
+    "packages": {
+      "numpy": "2.4.6",
+      "pandas": "3.0.3",
+      "pyarrow": "24.0.0",
+      "tables": "3.11.1",
+      "scikit-learn": "1.9.0",
+      "scipy": "1.17.1",
+      "matplotlib": "3.11.0",
+      "joblib": "1.5.3",
+      "reportlab": "5.0.0",
+      "clearml": "2.1.8"
+    }
+  },
+  "project_state": {
+    "git_commit": null,
+    "git_note": "The local .git directory is empty; no commit identifier is available.",
+    "dvc_directory_present": true
+  },
+  "random_seed": 42,
+  "verified_one_minute_winner": {
+    "resolution": "one_minute",
+    "dataset_variant": "selected_physics",
+    "model": "HistGradientBoosting",
+    "lookback": 8,
+    "horizon": 1,
+    "feature_count": 83,
+    "train_sample_count": 460606,
+    "validation_sample_count": 98695,
+    "test_sample_count": 98696,
+    "validation_rmse": 0.0352086725081566,
+    "test_rmse": 0.0338818117007769,
+    "validation_r2": 0.1749813085610086,
+    "test_r2": 0.1570328105163768,
+    "validation_skill": 0.3738138633194526,
+    "test_skill": 0.3787655540773249,
+    "training_time_seconds": 69.38209276599991,
+    "validation_time_seconds": 4.393503107000015,
+    "test_time_seconds": 4.70438492600033,
+    "backend_used": "scikit_learn",
+    "source_file": "outputs/07_classical_ml_models/ml_results_train_validation_test.csv",
+    "clearml_task_id": "ac5a8c1e487e44339dda40dcfa2bf3a1"
+  },
+  "verified_one_hour_winner": {
+    "resolution": "one_hour",
+    "dataset_variant": "selected_physics",
+    "model": "ExtraTrees",
+    "lookback": 8,
+    "horizon": 1,
+    "feature_count": 83,
+    "train_sample_count": 7628,
+    "validation_sample_count": 1628,
+    "test_sample_count": 1629,
+    "validation_rmse": 0.0500065199368958,
+    "test_rmse": 0.0466553156967693,
+    "validation_r2": 0.541788919143649,
+    "test_r2": 0.5438527908659847,
+    "validation_skill": 0.3912569065027664,
+    "test_skill": 0.3828361611786965,
+    "training_time_seconds": 23.409276922000004,
+    "validation_time_seconds": 0.0549760110000079,
+    "test_time_seconds": 0.0566623079999999,
+    "backend_used": "scikit_learn",
+    "source_file": "outputs\\07_classical_ml_models\\stage_c_remaining_8_partial_after_one_hour_summary.csv",
+    "clearml_task_id": "b811d4ee47a64235bc2ea65763566e9b"
+  },
+  "model_families_transferred": [
+    "HistGradientBoosting",
+    "Persistence"
+  ],
+  "target_definitions": [
+    {
+      "target_id": "existing_article",
+      "formula": "r[t]=(P[t]-P[t-1])/10",
+      "input_cutoff": "forecast origin t after L input rows",
+      "target_timestamp": "t+H; for H=1, t+1",
+      "lead_time_seconds": "60 at one-minute resolution; 3600 at one-hour resolution",
+      "target_duration_seconds": "one sampling interval",
+      "baseline": "r[t] carried to r[t+H]",
+      "operational_interpretation": "next aggregated-interval PV ramp",
+      "leakage_safety_status": "verified"
+    },
+    {
+      "target_id": "S1",
+      "formula": "(p[s+1]-p[s])/10",
+      "input_cutoff": "second s",
+      "target_timestamp": "s+1",
+      "lead_time_seconds": 1,
+      "target_duration_seconds": 1,
+      "baseline": "r[s]",
+      "operational_interpretation": "immediate next-second PV change",
+      "leakage_safety_status": "verified"
+    },
+    {
+      "target_id": "S2",
+      "formula": "(p[s+60]-p[s+59])/10",
+      "input_cutoff": "second s",
+      "target_timestamp": "s+60",
+      "lead_time_seconds": 60,
+      "target_duration_seconds": 1,
+      "baseline": "r[s]",
+      "operational_interpretation": "instantaneous one-second PV change one minute ahead",
+      "leakage_safety_status": "verified; not a net 60-second change"
+    },
+    {
+      "target_id": "S3",
+      "formula": "(Pbar[m+1]-Pbar[m])/10",
+      "input_cutoff": "end of completed minute m",
+      "target_timestamp": "m+1",
+      "lead_time_seconds": 60,
+      "target_duration_seconds": 60,
+      "baseline": "r[m]",
+      "operational_interpretation": "article's exact next-minute target from high-frequency context",
+      "leakage_safety_status": "verified; no seconds from m+1"
+    }
+  ],
+  "split_boundaries": [
+    {
+      "split": "train",
+      "start": "2018-06-01T01:00:00",
+      "end_exclusive": "2019-04-16T21:54:00"
+    },
+    {
+      "split": "validation",
+      "start": "2019-04-16T21:54:00",
+      "end_exclusive": "2019-06-24T10:57:00"
+    },
+    {
+      "split": "test",
+      "start": "2019-06-24T10:57:00",
+      "end_exclusive": "2019-09-01T00:00:01"
+    }
+  ],
+  "sampling_strategy": {
+    "tier": 2,
+    "interval_seconds": 30,
+    "retained_rows": 1315992,
+    "retained_fraction_percent": 3.3333335021962394,
+    "policy": "Resource-bounded second-level pilot experiments using deterministic 30-second anchors across the full chronological period.",
+    "target_specific_audit": [
+      {
+        "target_id": "S1",
+        "classification": "Resource-bounded second-level pilot experiments using deterministic 30-second anchors across the full chronological period.",
+        "theoretically_available_anchors": 39479758,
+        "retained_anchors": 1315992,
+        "retained_percentage": 3.3333335021962394,
+        "theoretical_train_anchors": 27636359,
+        "theoretical_validation_anchors": 5921699,
+        "theoretical_test_anchors": 5921700,
+        "train_anchors": 921212,
+        "validation_anchors": 197390,
+        "test_anchors": 197390,
+        "first_timestamp": "2018-06-01T01:08:00",
+        "last_timestamp": "2019-08-31T23:59:30",
+        "sampling_interval_seconds": 30,
+        "same_sampling_policy_train_validation_test": true,
+        "full_second_test_evaluation": false
+      },
+      {
+        "target_id": "S2",
+        "classification": "Resource-bounded second-level pilot experiments using deterministic 30-second anchors across the full chronological period.",
+        "theoretically_available_anchors": 39479581,
+        "retained_anchors": 1315987,
+        "retained_percentage": 3.333335781856449,
+        "theoretical_train_anchors": 27636300,
+        "theoretical_validation_anchors": 5921640,
+        "theoretical_test_anchors": 5921641,
+        "train_anchors": 921210,
+        "validation_anchors": 197388,
+        "test_anchors": 197389,
+        "first_timestamp": "2018-06-01T01:08:00",
+        "last_timestamp": "2019-08-31T23:59:00",
+        "sampling_interval_seconds": 30,
+        "same_sampling_policy_train_validation_test": true,
+        "full_second_test_evaluation": false
+      }
+    ]
+  },
+  "S1_result": {
+    "experiment_id": "S1",
+    "event_thresholds": {
+      "90": 0.000832676887512207,
+      "95": 0.002112876176834105,
+      "99": 0.014512330293655404
+    },
+    "primary_event_threshold": 0.002112876176834105,
+    "magnitude_bin_edges": [
+      0.0,
+      0.000832676887512207,
+      0.002112876176834105,
+      0.014512330293655404,
+      Infinity
+    ],
+    "split_metrics": {
+      "validation": {
+        "HistGradientBoosting": {
+          "MAE": 0.0011266681900250388,
+          "RMSE": 0.006465600793755136,
+          "NRMSE": 0.003232800396877568,
+          "R2": 0.23274573370175122,
+          "persistence_RMSE": 0.009656317937009795,
+          "persistence_skill": 0.33042792957609546,
+          "directional_accuracy": 0.33328436090987384,
+          "threshold": 0.002112876176834105,
+          "strong_count": 15275,
+          "strong_fraction": 0.07738487258726379,
+          "strong_ramp_MAE": 0.011527522891220438,
+          "strong_ramp_RMSE": 0.02305003517037073,
+          "strong_ramp_precision": 0.7441044630676281,
+          "strong_ramp_recall": 0.2499509001636661,
+          "strong_ramp_F1": 0.37420366558855234,
+          "upward_precision": 0.5737597911227154,
+          "upward_recall": 0.1142597166255037,
+          "upward_F1": 0.19056910569105692,
+          "downward_precision": 0.4406779661016949,
+          "downward_recall": 0.2091796359799525,
+          "downward_F1": 0.283695554959306,
+          "sign_accuracy": 0.33328436090987384
+        },
+        "Persistence": {
+          "MAE": 0.0012697331783919847,
+          "RMSE": 0.009656317937009795,
+          "NRMSE": 0.004828158968504898,
+          "R2": -0.7113729070974766,
+          "persistence_RMSE": 0.009656317937009795,
+          "persistence_skill": 0.0,
+          "directional_accuracy": 0.6128375297634125,
+          "threshold": 0.002112876176834105,
+          "strong_count": 15275,
+          "strong_fraction": 0.07738487258726379,
+          "strong_ramp_MAE": 0.011498356896414498,
+          "strong_ramp_RMSE": 0.03326220169795485,
+          "strong_ramp_precision": 0.6677988242978445,
+          "strong_ramp_recall": 0.669328968903437,
+          "strong_ramp_F1": 0.668563021088769,
+          "upward_precision": 0.5067374967608189,
+          "upward_recall": 0.5083842454179124,
+          "upward_F1": 0.5075595353967944,
+          "downward_precision": 0.5130400421496312,
+          "downward_recall": 0.5137166974413083,
+          "downward_F1": 0.5133781468301042,
+          "sign_accuracy": 0.6128375297634125
+        }
+      },
+      "test": {
+        "HistGradientBoosting": {
+          "MAE": 0.0011197190520302043,
+          "RMSE": 0.006636030797877382,
+          "NRMSE": 0.003318015398938691,
+          "R2": 0.14673029966323503,
+          "persistence_RMSE": 0.008962301546836509,
+          "persistence_skill": 0.259561758416871,
+          "directional_accuracy": 0.32415015958255233,
+          "threshold": 0.002112876176834105,
+          "strong_count": 14630,
+          "strong_fraction": 0.07411722984953645,
+          "strong_ramp_MAE": 0.011939948539718144,
+          "strong_ramp_RMSE": 0.024203777133174856,
+          "strong_ramp_precision": 0.7250879249706916,
+          "strong_ramp_recall": 0.25365686944634314,
+          "strong_ramp_F1": 0.37583552764836947,
+          "upward_precision": 0.5527883053600433,
+          "upward_recall": 0.1377124359320205,
+          "upward_F1": 0.22049454702515928,
+          "downward_precision": 0.4044634668297157,
+          "downward_recall": 0.18334257206208426,
+          "downward_F1": 0.25231238676456563,
+          "sign_accuracy": 0.32415015958255233
+        },
+        "Persistence": {
+          "MAE": 0.0012235579079643523,
+          "RMSE": 0.008962301546836509,
+          "NRMSE": 0.0044811507734182545,
+          "R2": -0.5563549186516312,
+          "persistence_RMSE": 0.008962301546836509,
+          "persistence_skill": 0.0,
+          "directional_accuracy": 0.6268858604792543,
+          "threshold": 0.002112876176834105,
+          "strong_count": 14630,
+          "strong_fraction": 0.07411722984953645,
+          "strong_ramp_MAE": 0.01154148654219066,
+          "strong_ramp_RMSE": 0.03163129243317842,
+          "strong_ramp_precision": 0.669739807416513,
+          "strong_ramp_recall": 0.6703349282296651,
+          "strong_ramp_F1": 0.6700372356779284,
+          "upward_precision": 0.5139500734214391,
+          "upward_recall": 0.5192878338278932,
+          "upward_F1": 0.5166051660516605,
+          "downward_precision": 0.5283836689038032,
+          "downward_recall": 0.5236973392461197,
+          "downward_F1": 0.5260300668151449,
+          "sign_accuracy": 0.6268858604792543
+        }
+      }
+    },
+    "model_path": "PROJECT_ROOT\\outputs\\reports\\final_one_second_professor_extension\\models\\s1_hist_gradient_boosting.joblib",
+    "training_time_seconds": 49.10041079996154,
+    "prediction_times_seconds": {
+      "validation": 1.9284395000431687,
+      "test": 2.2992338000331074
+    },
+    "peak_training_memory_gb": 2.6432113647460938,
+    "fit_policy": {
+      "scikit_learn_version": "1.9.0",
+      "fit_time_seconds": 49.10041079996154,
+      "peak_memory_gb": 2.6432113647460938,
+      "original_training_rows": 921212,
+      "internal_fit_rows": 829090,
+      "internal_early_stopping_rows": 92122,
+      "validation_fraction": 0.1,
+      "internal_split_seed": 1608637542,
+      "configured_random_state": 42,
+      "split_construction": "random 90/10 split of the official training subset only",
+      "official_validation_rows_used_for_early_stopping": 0,
+      "test_rows_used_for_fitting_or_early_stopping": 0,
+      "policy": "seeded HGB 90/10 split materialized on disk and supplied through X_val/y_val under the recorded scikit-learn version",
+      "matches_current_sklearn_seeded_internal_split_mechanics": true,
+      "exact_original_stage_c_reproduction_verified": false,
+      "deferred_cleanup_paths_at_fit": [
+        "PROJECT_ROOT\\tmp\\final_one_second_professor_extension\\second_memmaps\\s1_hgb_fit_cache\\internal_validation_y.npy"
+      ],
+      "deferred_cleanup_completed": true,
+      "deferred_cleanup_paths": []
+    },
+    "slices": {
+      "train": [
+        0,
+        921212
+      ],
+      "validation": [
+        921212,
+        1118602
+      ],
+      "test": [
+        1118602,
+        1315992
+      ]
+    }
+  },
+  "S2_result": {
+    "experiment_id": "S2",
+    "event_thresholds": {
+      "90": 0.0008337020874023438,
+      "95": 0.0021163463592529298,
+      "99": 0.014447230815887458
+    },
+    "primary_event_threshold": 0.0021163463592529298,
+    "magnitude_bin_edges": [
+      0.0,
+      0.0008337020874023438,
+      0.0021163463592529298,
+      0.014447230815887458,
+      Infinity
+    ],
+    "split_metrics": {
+      "validation": {
+        "HistGradientBoosting": {
+          "MAE": 0.0011657911195764564,
+          "RMSE": 0.007522530370902345,
+          "NRMSE": 0.0037612651854511724,
+          "R2": -0.003479485972120333,
+          "persistence_RMSE": 0.010730080499372944,
+          "persistence_skill": 0.2989306677296638,
+          "directional_accuracy": 0.30028167872413725,
+          "threshold": 0.0021163463592529298,
+          "strong_count": 15287,
+          "strong_fraction": 0.07744645064542931,
+          "strong_ramp_MAE": 0.01244493398456736,
+          "strong_ramp_RMSE": 0.026966876043416056,
+          "strong_ramp_precision": 0.4794520547945205,
+          "strong_ramp_recall": 0.013737162294760253,
+          "strong_ramp_F1": 0.02670906200317965,
+          "upward_precision": 0.21138211382113822,
+          "upward_recall": 0.003373994290163509,
+          "upward_F1": 0.0066419721548090435,
+          "downward_precision": 0.27936507936507937,
+          "downward_recall": 0.011607967286637646,
+          "downward_F1": 0.022289766970618033,
+          "sign_accuracy": 0.30028167872413725
+        },
+        "Persistence": {
+          "MAE": 0.0019370783886229024,
+          "RMSE": 0.010730080499372944,
+          "NRMSE": 0.005365040249686472,
+          "R2": -1.0416747575305156,
+          "persistence_RMSE": 0.010730080499372944,
+          "persistence_skill": 0.0,
+          "directional_accuracy": 0.5922852453036659,
+          "threshold": 0.0021163463592529298,
+          "strong_count": 15287,
+          "strong_fraction": 0.07744645064542931,
+          "strong_ramp_MAE": 0.01573289418281735,
+          "strong_ramp_RMSE": 0.03318207205091623,
+          "strong_ramp_precision": 0.46186052597147714,
+          "strong_ramp_recall": 0.46183031333813046,
+          "strong_ramp_F1": 0.4618454191606974,
+          "upward_precision": 0.23163768492084091,
+          "upward_recall": 0.23163768492084091,
+          "upward_F1": 0.23163768492084091,
+          "downward_precision": 0.2391820580474934,
+          "downward_recall": 0.23915050784856878,
+          "downward_F1": 0.23916628190752587,
+          "sign_accuracy": 0.5922852453036659
+        }
+      },
+      "test": {
+        "HistGradientBoosting": {
+          "MAE": 0.0011024848253737185,
+          "RMSE": 0.006778139696611211,
+          "NRMSE": 0.0033890698483056056,
+          "R2": -0.0024289355152102843,
+          "persistence_RMSE": 0.009612359280566212,
+          "persistence_skill": 0.2948516073140425,
+          "directional_accuracy": 0.2923921799087082,
+          "threshold": 0.0021163463592529298,
+          "strong_count": 14609,
+          "strong_fraction": 0.07401121643050018,
+          "strong_ramp_MAE": 0.012199651008095867,
+          "strong_ramp_RMSE": 0.024846037147046134,
+          "strong_ramp_precision": 0.45121951219512196,
+          "strong_ramp_recall": 0.012663426654801834,
+          "strong_ramp_F1": 0.02463546174845196,
+          "upward_precision": 0.17543859649122806,
+          "upward_recall": 0.002675943270002676,
+          "upward_F1": 0.005271481286241434,
+          "downward_precision": 0.2533783783783784,
+          "downward_recall": 0.01051156271899089,
+          "downward_F1": 0.020185708518368994,
+          "sign_accuracy": 0.2923921799087082
+        },
+        "Persistence": {
+          "MAE": 0.0018453914420613296,
+          "RMSE": 0.009612359280566212,
+          "NRMSE": 0.004806179640283106,
+          "R2": -1.0160094040357368,
+          "persistence_RMSE": 0.009612359280566212,
+          "persistence_skill": 0.0,
+          "directional_accuracy": 0.6028400772079497,
+          "threshold": 0.0021163463592529298,
+          "strong_count": 14609,
+          "strong_fraction": 0.07401121643050018,
+          "strong_ramp_MAE": 0.015274076140614799,
+          "strong_ramp_RMSE": 0.029951925824111013,
+          "strong_ramp_precision": 0.4304975703237287,
+          "strong_ramp_recall": 0.43055650626326236,
+          "strong_ramp_F1": 0.4305270362765229,
+          "upward_precision": 0.2091249665507091,
+          "upward_recall": 0.2091249665507091,
+          "upward_F1": 0.2091249665507091,
+          "downward_precision": 0.20849096258932326,
+          "downward_recall": 0.20854940434477925,
+          "downward_F1": 0.2085201793721973,
+          "sign_accuracy": 0.6028400772079497
+        }
+      }
+    },
+    "model_path": "PROJECT_ROOT\\outputs\\reports\\final_one_second_professor_extension\\models\\s2_hist_gradient_boosting.joblib",
+    "training_time_seconds": 27.226104700006545,
+    "prediction_times_seconds": {
+      "validation": 1.0946207998786122,
+      "test": 1.1805263001006097
+    },
+    "peak_training_memory_gb": 2.6914138793945312,
+    "fit_policy": {
+      "scikit_learn_version": "1.9.0",
+      "fit_time_seconds": 27.226104700006545,
+      "peak_memory_gb": 2.6914138793945312,
+      "original_training_rows": 921210,
+      "internal_fit_rows": 829089,
+      "internal_early_stopping_rows": 92121,
+      "validation_fraction": 0.1,
+      "internal_split_seed": 1608637542,
+      "configured_random_state": 42,
+      "split_construction": "random 90/10 split of the official training subset only",
+      "official_validation_rows_used_for_early_stopping": 0,
+      "test_rows_used_for_fitting_or_early_stopping": 0,
+      "policy": "seeded HGB 90/10 split materialized on disk and supplied through X_val/y_val under the recorded scikit-learn version",
+      "matches_current_sklearn_seeded_internal_split_mechanics": true,
+      "exact_original_stage_c_reproduction_verified": false,
+      "deferred_cleanup_paths_at_fit": [
+        "PROJECT_ROOT\\tmp\\final_one_second_professor_extension\\second_memmaps\\s2_hgb_fit_cache\\internal_validation_y.npy"
+      ],
+      "deferred_cleanup_completed": true,
+      "deferred_cleanup_paths": []
+    },
+    "slices": {
+      "train": [
+        0,
+        921210
+      ],
+      "validation": [
+        921212,
+        1118600
+      ],
+      "test": [
+        1118602,
+        1315991
+      ]
+    }
+  },
+  "S3_result": {
+    "model_name": "S3 HistGradientBoosting",
+    "model_path": "PROJECT_ROOT\\outputs\\reports\\final_one_second_professor_extension\\models\\s3_hist_gradient_boosting.joblib",
+    "model_metadata_path": "PROJECT_ROOT\\outputs\\reports\\final_one_second_professor_extension\\models\\s3_hist_gradient_boosting_metadata.json",
+    "prediction_path": "PROJECT_ROOT\\outputs\\reports\\final_one_second_professor_extension\\predictions\\s3_hist_gradient_boosting_predictions.parquet",
+    "persistence_prediction_path": "PROJECT_ROOT\\outputs\\reports\\final_one_second_professor_extension\\predictions\\s3_persistence_predictions.parquet",
+    "metrics_by_split": {
+      "validation": {
+        "S3 HistGradientBoosting": {
+          "MAE": 0.008546907990281653,
+          "RMSE": 0.028305448335259907,
+          "NRMSE": 0.014152724167629954,
+          "R2": 0.466782294200068,
+          "persistence_RMSE": 0.05622716704461085,
+          "persistence_skill": 0.496587684867668,
+          "directional_accuracy": 0.5061857236942094,
+          "threshold": 0.01,
+          "strong_count": 14784,
+          "strong_fraction": 0.14979482243274736,
+          "strong_ramp_MAE": 0.046062640471709056,
+          "strong_ramp_RMSE": 0.0712291252223896,
+          "strong_ramp_precision": 0.7650866879976189,
+          "strong_ramp_recall": 0.6954816017316018,
+          "strong_ramp_F1": 0.7286255890585693,
+          "upward_precision": 0.6815255076770679,
+          "upward_recall": 0.5627044711014176,
+          "upward_F1": 0.6164414246248039,
+          "downward_precision": 0.593199674884855,
+          "downward_recall": 0.5879430719656283,
+          "downward_F1": 0.5905596763317599,
+          "sign_accuracy": 0.5061857236942094
+        },
+        "Persistence": {
+          "MAE": 0.015363018546223961,
+          "RMSE": 0.05622716704461085,
+          "NRMSE": 0.028113583522305426,
+          "R2": -1.104054043853624,
+          "persistence_RMSE": 0.05622716704461085,
+          "persistence_skill": 0.0,
+          "directional_accuracy": 0.7808602259486296,
+          "threshold": 0.01,
+          "strong_count": 14784,
+          "strong_fraction": 0.14979482243274736,
+          "strong_ramp_MAE": 0.0862118179133095,
+          "strong_ramp_RMSE": 0.14052212797637703,
+          "strong_ramp_precision": 0.718325103159034,
+          "strong_ramp_recall": 0.7182765151515151,
+          "strong_ramp_F1": 0.7183008083336153,
+          "upward_precision": 0.4187568157033806,
+          "upward_recall": 0.4187568157033806,
+          "upward_F1": 0.4187568157033806,
+          "downward_precision": 0.41654357459379615,
+          "downward_recall": 0.4164876476906552,
+          "downward_F1": 0.416515609264854,
+          "sign_accuracy": 0.7808602259486296
+        }
+      },
+      "test": {
+        "S3 HistGradientBoosting": {
+          "MAE": 0.00831955327031642,
+          "RMSE": 0.02693913061312743,
+          "NRMSE": 0.013469565306563715,
+          "R2": 0.4671068052839191,
+          "persistence_RMSE": 0.05453976928001591,
+          "persistence_skill": 0.5060644559235735,
+          "directional_accuracy": 0.49477683773240794,
+          "threshold": 0.01,
+          "strong_count": 15165,
+          "strong_fraction": 0.15365520036476013,
+          "strong_ramp_MAE": 0.043760388885597974,
+          "strong_ramp_RMSE": 0.06680752568614425,
+          "strong_ramp_precision": 0.7693255089473303,
+          "strong_ramp_recall": 0.7002307945928123,
+          "strong_ramp_F1": 0.7331538249102458,
+          "upward_precision": 0.674773413897281,
+          "upward_recall": 0.5881500987491771,
+          "upward_F1": 0.6284910306014774,
+          "downward_precision": 0.6186830015313936,
+          "downward_recall": 0.5870541611624834,
+          "downward_F1": 0.6024537382227343,
+          "sign_accuracy": 0.49477683773240794
+        },
+        "Persistence": {
+          "MAE": 0.01546967988934474,
+          "RMSE": 0.05453976928001591,
+          "NRMSE": 0.027269884640007954,
+          "R2": -1.184236273190114,
+          "persistence_RMSE": 0.05453976928001591,
+          "persistence_skill": 0.0,
+          "directional_accuracy": 0.7871928669132174,
+          "threshold": 0.01,
+          "strong_count": 15165,
+          "strong_fraction": 0.15365520036476013,
+          "strong_ramp_MAE": 0.08434734755462453,
+          "strong_ramp_RMSE": 0.13413578192850645,
+          "strong_ramp_precision": 0.7209547672425162,
+          "strong_ramp_recall": 0.7210023079459281,
+          "strong_ramp_F1": 0.7209785368105239,
+          "upward_precision": 0.41171823568136934,
+          "upward_recall": 0.41171823568136934,
+          "upward_F1": 0.41171823568136934,
+          "downward_precision": 0.4077400607581561,
+          "downward_recall": 0.4077939233817701,
+          "downward_F1": 0.4077669902912621,
+          "sign_accuracy": 0.7871928669132174
+        }
+      }
+    },
+    "training_time_seconds": 234.73166889999993,
+    "prediction_times_seconds": {
+      "validation": 3.5694251998793334,
+      "test": 3.466864600079134
+    },
+    "peak_training_memory_gb": 3.2829322814941406,
+    "fit_policy": {
+      "scikit_learn_version": "1.9.0",
+      "fit_time_seconds": 234.73166889999993,
+      "peak_memory_gb": 3.2829322814941406,
+      "original_training_rows": 460606,
+      "internal_fit_rows": 414545,
+      "internal_early_stopping_rows": 46061,
+      "validation_fraction": 0.1,
+      "internal_split_seed": 1608637542,
+      "configured_random_state": 42,
+      "split_construction": "random 90/10 split of the official training subset only",
+      "official_validation_rows_used_for_early_stopping": 0,
+      "test_rows_used_for_fitting_or_early_stopping": 0,
+      "policy": "seeded HGB 90/10 split materialized on disk and supplied through X_val/y_val under the recorded scikit-learn version",
+      "matches_current_sklearn_seeded_internal_split_mechanics": true,
+      "exact_original_stage_c_reproduction_verified": false,
+      "deferred_cleanup_paths_at_fit": [
+        "PROJECT_ROOT\\tmp\\final_one_second_professor_extension\\minute_s3_matrix\\s3_hist_gradient_boosting_fit_cache\\internal_validation_y.npy"
+      ],
+      "deferred_cleanup_completed": true,
+      "deferred_cleanup_paths": []
+    },
+    "slices": {
+      "train": [
+        0,
+        460606
+      ],
+      "validation": [
+        460606,
+        559301
+      ],
+      "test": [
+        559301,
+        657996
+      ]
+    },
+    "shape": [
+      657996,
+      776
+    ]
+  },
+  "s3_same_target_comparison": {
+    "existing_reference_test_metrics": {
+      "MAE": 0.011096085057643397,
+      "RMSE": 0.034046179845671765,
+      "NRMSE": 0.017023089922835882,
+      "R2": 0.14884275512498946,
+      "persistence_RMSE": 0.05453976928001591,
+      "persistence_skill": 0.37575497118674583,
+      "directional_accuracy": 0.4829930594255028,
+      "threshold": 0.01,
+      "strong_count": 15165,
+      "strong_fraction": 0.15365520036476013,
+      "strong_ramp_MAE": 0.05834129474342067,
+      "strong_ramp_RMSE": 0.08475410530105293,
+      "strong_ramp_precision": 0.6596021423106351,
+      "strong_ramp_recall": 0.5684800527530498,
+      "strong_ramp_F1": 0.6106605277138304,
+      "upward_precision": 0.4931098167353317,
+      "upward_recall": 0.45701119157340353,
+      "upward_F1": 0.47437474374743743,
+      "downward_precision": 0.4042447355330791,
+      "downward_recall": 0.32206076618229856,
+      "downward_F1": 0.3585030512462319,
+      "sign_accuracy": 0.4829930594255028
+    },
+    "high_frequency_test_metrics": {
+      "MAE": 0.00831955327031642,
+      "RMSE": 0.02693913061312743,
+      "NRMSE": 0.013469565306563715,
+      "R2": 0.4671068052839191,
+      "persistence_RMSE": 0.05453976928001591,
+      "persistence_skill": 0.5060644559235735,
+      "directional_accuracy": 0.49477683773240794,
+      "threshold": 0.01,
+      "strong_count": 15165,
+      "strong_fraction": 0.15365520036476013,
+      "strong_ramp_MAE": 0.043760388885597974,
+      "strong_ramp_RMSE": 0.06680752568614425,
+      "strong_ramp_precision": 0.7693255089473303,
+      "strong_ramp_recall": 0.7002307945928123,
+      "strong_ramp_F1": 0.7331538249102458,
+      "upward_precision": 0.674773413897281,
+      "upward_recall": 0.5881500987491771,
+      "upward_F1": 0.6284910306014774,
+      "downward_precision": 0.6186830015313936,
+      "downward_recall": 0.5870541611624834,
+      "downward_F1": 0.6024537382227343,
+      "sign_accuracy": 0.49477683773240794
+    },
+    "paired_table": [
+      {
+        "metric": "RMSE",
+        "aligned_test_rows": 98695,
+        "existing_reference": 0.034046179845671765,
+        "high_frequency": 0.02693913061312743,
+        "high_frequency_minus_reference": -0.007107049232544335,
+        "relative_difference_percent": -20.874733273336226,
+        "favorable_direction": "negative",
+        "point_result": "high_frequency_favored"
+      },
+      {
+        "metric": "MAE",
+        "aligned_test_rows": 98695,
+        "existing_reference": 0.011096085057643397,
+        "high_frequency": 0.00831955327031642,
+        "high_frequency_minus_reference": -0.0027765317873269767,
+        "relative_difference_percent": -25.0226253034569,
+        "favorable_direction": "negative",
+        "point_result": "high_frequency_favored"
+      },
+      {
+        "metric": "strong_ramp_RMSE",
+        "aligned_test_rows": 98695,
+        "existing_reference": 0.08475410530105293,
+        "high_frequency": 0.06680752568614425,
+        "high_frequency_minus_reference": -0.017946579614908684,
+        "relative_difference_percent": -21.174879436413246,
+        "favorable_direction": "negative",
+        "point_result": "high_frequency_favored"
+      },
+      {
+        "metric": "directional_accuracy",
+        "aligned_test_rows": 98695,
+        "existing_reference": 0.4829930594255028,
+        "high_frequency": 0.49477683773240794,
+        "high_frequency_minus_reference": 0.011783778306905135,
+        "relative_difference_percent": 2.439740711993124,
+        "favorable_direction": "positive",
+        "point_result": "high_frequency_favored"
+      }
+    ],
+    "bootstrap": [
+      {
+        "metric": "RMSE",
+        "difference_definition": "high_frequency_minus_existing_reference",
+        "point_difference": -0.007107049232544335,
+        "ci_lower": -0.008056511700893422,
+        "ci_upper": -0.006176008303569374,
+        "confidence_level": 0.95,
+        "bootstrap_replicates": 1000,
+        "block": "complete_day",
+        "day_blocks": 69,
+        "improvement_sign": "negative",
+        "conclusion": "high_frequency"
+      },
+      {
+        "metric": "MAE",
+        "difference_definition": "high_frequency_minus_existing_reference",
+        "point_difference": -0.0027765317873269767,
+        "ci_lower": -0.0032860337357935063,
+        "ci_upper": -0.002290853514815215,
+        "confidence_level": 0.95,
+        "bootstrap_replicates": 1000,
+        "block": "complete_day",
+        "day_blocks": 69,
+        "improvement_sign": "negative",
+        "conclusion": "high_frequency"
+      },
+      {
+        "metric": "strong_ramp_RMSE",
+        "difference_definition": "high_frequency_minus_existing_reference",
+        "point_difference": -0.017946579614908684,
+        "ci_lower": -0.019642726088254715,
+        "ci_upper": -0.016105544997662136,
+        "confidence_level": 0.95,
+        "bootstrap_replicates": 1000,
+        "block": "complete_day",
+        "day_blocks": 69,
+        "improvement_sign": "negative",
+        "conclusion": "high_frequency"
+      },
+      {
+        "metric": "directional_accuracy",
+        "difference_definition": "high_frequency_minus_existing_reference",
+        "point_difference": 0.011783778306905135,
+        "ci_lower": 0.0037675507971621893,
+        "ci_upper": 0.020187987086546982,
+        "confidence_level": 0.95,
+        "bootstrap_replicates": 1000,
+        "block": "complete_day",
+        "day_blocks": 69,
+        "improvement_sign": "positive",
+        "conclusion": "high_frequency"
+      }
+    ],
+    "improvement_status": "high_frequency",
+    "alignment_audit": {
+      "target_formula": "(Pbar[m+1]-Pbar[m])/10",
+      "official_one_minute_test_candidate_rows": 98696,
+      "available_s3_complete_test_rows": 98695,
+      "matched_comparison_rows": 98695,
+      "unmatched_rows": 1,
+      "unmatched_reason_counts": "{\"incomplete_input_and_target_minutes\": 0, \"incomplete_input_minute\": 0, \"incomplete_target_minute\": 1}",
+      "identical_target_timestamps": true,
+      "completeness_requirement": "exactly 60 timestamped one-second rows and 60 finite PV/POA/GHI observations"
+    }
+  },
+  "averaging_loss_findings": [
+    {
+      "series": "one_second_ramp_pu",
+      "statistic": "count",
+      "value": 39484800.0
+    },
+    {
+      "series": "one_second_ramp_pu",
+      "statistic": "mean",
+      "value": -1.55246752265608e-14
+    },
+    {
+      "series": "one_second_ramp_pu",
+      "statistic": "standard_deviation",
+      "value": 0.008414075001715237
+    },
+    {
+      "series": "one_second_ramp_pu",
+      "statistic": "minimum",
+      "value": -0.5897917151451111
+    },
+    {
+      "series": "one_second_ramp_pu",
+      "statistic": "maximum",
+      "value": 0.5867987871170044
+    },
+    {
+      "series": "one_second_ramp_pu",
+      "statistic": "mean_absolute",
+      "value": 0.0009543142315017105
+    },
+    {
+      "series": "one_second_ramp_pu",
+      "statistic": "absolute_percentile_1",
+      "value": 0.0
+    },
+    {
+      "series": "one_second_ramp_pu",
+      "statistic": "absolute_percentile_5",
+      "value": 0.0
+    },
+    {
+      "series": "one_second_ramp_pu",
+      "statistic": "absolute_percentile_50",
+      "value": 2.0489097085629737e-09
+    },
+    {
+      "series": "one_second_ramp_pu",
+      "statistic": "absolute_percentile_90",
+      "value": 0.001020669937133789
+    },
+    {
+      "series": "one_second_ramp_pu",
+      "statistic": "absolute_percentile_95",
+      "value": 0.002471399260684848
+    },
+    {
+      "series": "one_second_ramp_pu",
+      "statistic": "absolute_percentile_99",
+      "value": 0.017144512869417566
+    },
+    {
+      "series": "one_second_ramp_pu",
+      "statistic": "absolute_percentile_99.9",
+      "value": 0.10724186009913717
+    },
+    {
+      "series": "one_second_ramp_pu",
+      "statistic": "strong_threshold",
+      "value": 0.002112876176834105
+    },
+    {
+      "series": "one_second_ramp_pu",
+      "statistic": "strong_event_count",
+      "value": 2276753.0
+    },
+    {
+      "series": "one_second_ramp_pu",
+      "statistic": "strong_event_fraction",
+      "value": 0.057661505186806065
+    },
+    {
+      "series": "one_minute_ramp_pu",
+      "statistic": "count",
+      "value": 658021.0
+    },
+    {
+      "series": "one_minute_ramp_pu",
+      "statistic": "mean",
+      "value": -5.009295655506083e-15
+    },
+    {
+      "series": "one_minute_ramp_pu",
+      "statistic": "standard_deviation",
+      "value": 0.03296894499021121
+    },
+    {
+      "series": "one_minute_ramp_pu",
+      "statistic": "minimum",
+      "value": -0.57186
+    },
+    {
+      "series": "one_minute_ramp_pu",
+      "statistic": "maximum",
+      "value": 0.5863016667
+    },
+    {
+      "series": "one_minute_ramp_pu",
+      "statistic": "mean_absolute",
+      "value": 0.007978571110525938
+    },
+    {
+      "series": "one_minute_ramp_pu",
+      "statistic": "absolute_percentile_1",
+      "value": 0.0
+    },
+    {
+      "series": "one_minute_ramp_pu",
+      "statistic": "absolute_percentile_5",
+      "value": 0.0
+    },
+    {
+      "series": "one_minute_ramp_pu",
+      "statistic": "absolute_percentile_50",
+      "value": 0.0001333333333
+    },
+    {
+      "series": "one_minute_ramp_pu",
+      "statistic": "absolute_percentile_90",
+      "value": 0.011885
+    },
+    {
+      "series": "one_minute_ramp_pu",
+      "statistic": "absolute_percentile_95",
+      "value": 0.03720666667
+    },
+    {
+      "series": "one_minute_ramp_pu",
+      "statistic": "absolute_percentile_99",
+      "value": 0.17412300000000047
+    },
+    {
+      "series": "one_minute_ramp_pu",
+      "statistic": "absolute_percentile_99.9",
+      "value": 0.3669884666660075
+    },
+    {
+      "series": "one_minute_ramp_pu",
+      "statistic": "strong_threshold",
+      "value": 0.01
+    },
+    {
+      "series": "one_minute_ramp_pu",
+      "statistic": "strong_event_count",
+      "value": 72611.0
+    },
+    {
+      "series": "one_minute_ramp_pu",
+      "statistic": "strong_event_fraction",
+      "value": 0.11034754209972022
+    },
+    {
+      "series": "averaging_loss",
+      "statistic": "minutes_compared",
+      "value": 658021.0
+    },
+    {
+      "series": "averaging_loss",
+      "statistic": "mean_attenuation_indicator",
+      "value": -104.77791091757656
+    },
+    {
+      "series": "averaging_loss",
+      "statistic": "median_attenuation_indicator",
+      "value": 0.8166595344607506
+    },
+    {
+      "series": "averaging_loss",
+      "statistic": "attenuation_positive_fraction",
+      "value": 0.672477018210665
+    },
+    {
+      "series": "averaging_loss",
+      "statistic": "cancellation_fraction",
+      "value": 0.6039153765609304
+    },
+    {
+      "series": "averaging_loss",
+      "statistic": "both_strong_directions_fraction",
+      "value": 0.14452274319512598
+    },
+    {
+      "series": "averaging_loss",
+      "statistic": "high_variability_small_minute_ramp_fraction",
+      "value": 0.0063888538511688835
+    },
+    {
+      "series": "averaging_loss",
+      "statistic": "pv_variability_95th_percentile_kw",
+      "value": 0.25329136848449707
+    },
+    {
+      "series": "averaging_loss",
+      "statistic": "correlation_max_abs_one_second_vs_abs_one_minute",
+      "value": 0.44395290336541604
+    },
+    {
+      "series": "averaging_loss",
+      "statistic": "correlation_within_minute_pv_variability_vs_s3_absolute_error",
+      "value": 0.6753562630721596
+    }
+  ],
+  "feature_ablation_findings": {
+    "counts": {
+      "original_measurements": 11,
+      "temporal_statistical": 51,
+      "physics_guided": 23,
+      "full": 11,
+      "selected": 9,
+      "full_physics": 85,
+      "selected_physics": 83
+    },
+    "controlled_pairs_available": 9,
+    "controlled_pairs_missing": 3,
+    "selected_physics_reduction_percent": -2.3529411764705883
+  },
+  "runtime_findings": {
+    "checksum_time_seconds": 42.810254000127316,
+    "minute_descriptor_generation_seconds": 35.69600500003435,
+    "second_anchor_generation_seconds": 859.9101719999917,
+    "s1_training_seconds": 49.10041079996154,
+    "s2_training_seconds": 27.226104700006545,
+    "reference_training_seconds": 170.4509825001005,
+    "s3_training_seconds": 234.73166889999993
+  },
+  "memory_findings": {
+    "available_ram_preflight_gb": 2.22210693359375,
+    "second_feature_peak_gb": 1.7674446105957031,
+    "s1_training_peak_gb": 2.6432113647460938,
+    "s2_training_peak_gb": 2.6914138793945312,
+    "s3_training_peak_gb": 3.2829322814941406,
+    "matrix_policy": "float32 checkpoints; float64 disk-backed HGB matrices to avoid sklearn conversion copies"
+  },
+  "extra_trees": {
+    "status": "skipped_resource_preflight",
+    "reason": "The 120-tree ExtraTrees robustness check on the 776-column all-minute S3 matrix was unsafe on an 8 GB workstation."
+  },
+  "clearml": {
+    "status": "completed",
+    "task_id": "4c5ade2cab454acd96e10a8846f21bae",
+    "project": "PV_Ramp_SOLETE",
+    "task_name": "final_one_second_multiresolution_professor_extension",
+    "status_message": "Scientific run and artifacts completed; the original failed status came from a post-packaging locked-file cleanup exception, which was resolved locally."
+  },
+  "kaggle": {
+    "used": false,
+    "output_path": "PROJECT_ROOT\\outputs\\reports\\final_one_second_professor_extension\\kaggle_outputs",
+    "reason": "Local disk-backed execution completed."
+  },
+  "limitations": [
+    "S1 and S2 use deterministic 30-second anchors rather than every second.",
+    "One site and one transferred ML family are evaluated.",
+    "ExtraTrees S3 was skipped because of local memory risk.",
+    "No closed-loop microgrid controller simulation was performed.",
+    "Runtime values are single-run measurements on this workstation.",
+    "The official v3 one-minute PV values are not numerically reproducible as simple 60-second means of the official v3 one-second PV values; S3 is therefore a same-timestamp cross-resolution input ablation.",
+    "The retrained aligned one-minute reference follows the archived Stage C protocol but does not exactly reproduce its aggregate validation and test RMSE values."
+  ],
+  "article_recommendation": "Keep the validated framework. Treat S3 as supplementary unless the publisher clarifies the v3 one-minute processing; do not claim direct arithmetic aggregation across the two files.",
+  "reference_reconstruction_consistency": {
+    "official_validation_rmse": 0.0352086725081566,
+    "reconstructed_validation_rmse": 0.03544119446632851,
+    "validation_absolute_difference": 0.00023252195817191623,
+    "official_test_rmse": 0.0338818117007769,
+    "reconstructed_test_rmse": 0.034046179845671765,
+    "test_absolute_difference": 0.000164368144894865,
+    "exact_original_stage_c_reproduction_verified": false,
+    "paired_current_protocol_comparison_is_internally_controlled": true,
+    "interpretation": "The aligned reference and S3 models use the same current fit policy and rows, but the aligned reference is not a bit-for-bit reproduction of the archived Stage C estimator."
+  },
+  "aggregation_alignment": {
+    "matched_timestamps": 658081,
+    "matched_complete_timestamps": 658080,
+    "matched_incomplete_timestamps_excluded_from_validation": 1,
+    "official_rows": 658081,
+    "descriptor_rows": 658081,
+    "missing_from_reconstructed_one_second_series": 0,
+    "missing_from_official_one_minute_series": 0,
+    "mean_absolute_difference_kw": 0.054380099391977944,
+    "median_absolute_difference_kw": 2.216589626386975e-07,
+    "p95_absolute_difference_kw": 0.2495403775374094,
+    "maximum_absolute_difference_kw": 5.697661557443002,
+    "correlation": 0.9963789141686622,
+    "project_reconstruction_aggregation_function": "arithmetic mean of the 60 one-second PV values in [m, m+60 s)",
+    "official_one_minute_processing_description": "processed sampling of 1 min (SOLETE v3 README wording)",
+    "official_exact_aggregation_function": "unavailable: the public v3 README and platform code do not disclose the exact one-minute transformation",
+    "official_one_minute_is_simple_60_second_mean": false,
+    "timezone_convention": "UTC represented by a timezone-naive HDF DatetimeIndex, as specified in the SOLETE data paper",
+    "minute_label_convention": "left-labeled minute start m for the interval [m, m+60 s)",
+    "comparison_scope": "complete minutes only (exactly 60 timestamped and finite PV/POA/GHI observations)",
+    "validation_tolerance_kw": 1e-06,
+    "timestamp_alignment_validated": true,
+    "arithmetic_mean_equivalence_validated": false,
+    "validated_for_s3_same_target_gate": true,
+    "s3_interpretation_constraint": "same-timestamp cross-resolution input ablation; do not describe the official one-minute PV as a direct arithmetic mean of the v3 one-second PV",
+    "reconstructed_one_second_mean_to_official_hour_crosscheck": {
+      "matched_rows": 10968,
+      "mean_absolute_difference_kw": 0.00577527310919642,
+      "median_absolute_difference_kw": 7.003866091576105e-05,
+      "p95_absolute_difference_kw": 0.037744806269646006,
+      "maximum_absolute_difference_kw": 0.5380964993005195,
+      "correlation": 0.9999528875617508
+    },
+    "official_one_minute_mean_to_official_hour_crosscheck": {
+      "matched_rows": 10968,
+      "mean_absolute_difference_kw": 0.052292508491140546,
+      "median_absolute_difference_kw": 0.00012197546396881809,
+      "p95_absolute_difference_kw": 0.26533807856940445,
+      "maximum_absolute_difference_kw": 2.3782025993142555,
+      "correlation": 0.9982142253954718
+    }
+  },
+  "minute_completeness": {
+    "complete_minutes": 658080,
+    "incomplete_minutes": 1,
+    "excluded_reason_counts": {
+      "fewer_than_60_one_second_observations": 1
+    },
+    "requirement": "exactly 60 timestamped one-second rows and 60 finite PV/POA/GHI observations"
+  },
+  "chronological_normalization": {
+    "source_path": "WORKSPACE_ROOT\\data\\raw\\solete_official\\SOLETE_Pombo_1sec.h5",
+    "source_row_count": 39484801,
+    "source_column_count": 11,
+    "columns": [
+      "TEMPERATURE[degC]",
+      "HUMIDITY[%]",
+      "WIND_SPEED[m1s]",
+      "WIND_DIR[deg]",
+      "GHI[kW1m2]",
+      "POA Irr[kW1m2]",
+      "P_Gaia[kW]",
+      "P_Solar[kW]",
+      "Pressure[mbar]",
+      "Azimuth[deg]",
+      "Elevation[deg]"
+    ],
+    "source_first_stored_timestamp": "2018-11-17T00:00:00",
+    "source_last_stored_timestamp": "2018-09-12T23:59:59",
+    "source_timestamp_scale_to_ns": 1,
+    "source_order_non_one_second_transitions": 456,
+    "source_order_backward_jumps": 239,
+    "chronological_start_timestamp": "2018-06-01T00:00:00",
+    "chronological_end_timestamp": "2019-09-01T00:00:00",
+    "chronological_start_timestamp_ns": 1527811200000000000,
+    "chronological_end_timestamp_ns": 1567296000000000000,
+    "chronological_row_count": 39484801,
+    "chronological_values_path": "PROJECT_ROOT\\tmp\\final_one_second_professor_extension\\chronological_source\\solete_one_second_chronological_float32.npy",
+    "dtype": "float32",
+    "duplicate_timestamp_rows": 0,
+    "missing_chronological_rows": 0,
+    "invalid_timestamp_rows": 0,
+    "missing_numeric_values": 0,
+    "timestamp_reordering_required": true,
+    "timestamp_reordering_policy": "direct scatter by integer second offset from global minimum timestamp",
+    "generation_time_seconds": 25.340159900020808,
+    "peak_memory_gb": 2.0423851013183594
+  },
+  "execution_checks": {
+    "official_short_preflight_passed": true,
+    "official_file_size": true,
+    "source_span_matches_one_second_frequency": true,
+    "source_has_expected_columns": true,
+    "no_duplicate_timestamps": true,
+    "one_second_steps_regular_inside_chunks": true,
+    "no_missing_numeric_values": true,
+    "minute_completeness_audited": true,
+    "incomplete_minutes_excluded_from_s3": true,
+    "minute_timestamp_alignment_validated": true,
+    "official_one_minute_arithmetic_mean_equivalence": false,
+    "official_one_minute_mean_mismatch_documented": true,
+    "reference_reconstruction_consistent": false,
+    "s3_exact_prediction_alignment": true,
+    "all_prediction_schemas_pass": true,
+    "feature_classification_counts_verified": true,
+    "all_24_figures_created": true,
+    "bootstrap_replicates_complete": true,
+    "extra_trees_transparently_skipped": true
+  },
+  "unresolved_issues": [
+    "The exact SOLETE v3 one-minute processing function is not disclosed in the public README or platform code, and the values are not simple 60-second means of the official v3 one-second PV series.",
+    "No Git commit identifier is available because the local .git directory is empty.",
+    "The archived Stage C package does not retain the fitted HGB estimator or complete software-version metadata needed for bit-for-bit reconstruction."
+  ],
+  "final_report_path": "PROJECT_ROOT\\outputs\\reports\\final_one_second_professor_extension\\final_one_second_professor_extension_report.md",
+  "final_zip_path": "PROJECT_ROOT\\outputs\\reports\\final_one_second_professor_extension\\final_one_second_professor_extension_complete_package.zip",
+  "total_execution_time_seconds": 1451.0815557001624,
+  "reference_HGB_fit_policy": {
+    "scikit_learn_version": "1.9.0",
+    "fit_time_seconds": 170.4509825001005,
+    "peak_memory_gb": 2.943328857421875,
+    "original_training_rows": 460606,
+    "internal_fit_rows": 414545,
+    "internal_early_stopping_rows": 46061,
+    "validation_fraction": 0.1,
+    "internal_split_seed": 1608637542,
+    "configured_random_state": 42,
+    "split_construction": "random 90/10 split of the official training subset only",
+    "official_validation_rows_used_for_early_stopping": 0,
+    "test_rows_used_for_fitting_or_early_stopping": 0,
+    "policy": "seeded HGB 90/10 split materialized on disk and supplied through X_val/y_val under the recorded scikit-learn version",
+    "matches_current_sklearn_seeded_internal_split_mechanics": true,
+    "exact_original_stage_c_reproduction_verified": false,
+    "deferred_cleanup_paths_at_fit": [
+      "PROJECT_ROOT\\tmp\\final_one_second_professor_extension\\minute_reference_matrix\\existing_one_minute_reference_hgb_fit_cache\\internal_validation_y.npy"
+    ],
+    "deferred_cleanup_completed": true,
+    "deferred_cleanup_paths": []
+  },
+  "post_run_artifact_refresh": {
+    "timestamp_utc": "2026-07-13T18:03:06.148948+00:00",
+    "expensive_preprocessing_repeated": false,
+    "model_training_repeated": false,
+    "pytest": "13 passed in 24.28s",
+    "clearml_task_status_reconciled": true,
+    "cleanup_completed": true
+  }
+}

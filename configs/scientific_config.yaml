@@ -1,0 +1,212 @@
+project:
+  label: "Short-term PV ramp-rate forecasting model for microgrid control support."
+  root: "."
+  rated_power_kw: 10.0
+  random_seed: 42
+  timezone: "Africa/Casablanca"
+
+paths:
+  external_parent_root: ".."
+  raw_solete_dir: "../data/raw/solete_official"
+  raw_solete_files:
+    one_minute: "../data/raw/solete_official/SOLETE_Pombo_1min.h5"
+    one_hour: "../data/raw/solete_official/SOLETE_Pombo_60min.h5"
+  notebooks_local: "notebooks/local_development"
+  notebooks_executed: "notebooks/executed"
+  notebooks_kaggle_generated: "notebooks/kaggle_generated"
+  kaggle_ui_notebooks: "kaggle_jobs/kaggle_ui_notebooks"
+  outputs: "outputs"
+  reports: "outputs/reports"
+  run_state: "outputs/run_state"
+
+data:
+  source_mode: "external_parent_reference"
+  copy_raw_data_into_clean_root: false
+  hdf_key: "/DATA"
+  timestamp_source: "index"
+  official_target: "ramp_rate_pu"
+  target_created_in_notebook: "02_target_features"
+  pv_power_column: "P_Solar[kW]"
+  primary_resolution_candidate: "one_minute"
+  optional_resolution_candidates:
+    - "one_hour"
+
+target:
+  official_name: "ramp_rate_pu"
+  formula: "(P_Solar[t] - P_Solar[t-1]) / P_R"
+  stable_threshold_pu_per_step: 0.01
+  invalid_first_row_policy: "drop_after_documenting"
+  create_future_targets_in_notebook_02: false
+  segment_diagnostics:
+    daylight_elevation_threshold_deg: 0.0
+    productive_power_threshold_kw: 0.05
+    primary_daylight_productive_rule: "Elevation[deg] > 0 and P_Solar[kW] > 0.05"
+
+feature_selection:
+  provisional_train_fraction: 0.70
+  provisional_split_purpose: "train-only feature ranking before official split in Notebook 04"
+  min_abs_correlation_for_report: 0.0
+  min_combined_score: 0.18
+  min_selected_features: 5
+  max_selected_features: 9
+  redundancy_correlation_threshold: 0.98
+  keep_timestamp_as_index_column: true
+  physics_source_force_keep:
+    - "POA Irr[kW1m2]"
+  physics_source_force_keep_reason: "POA is retained despite high correlation with PV power because Notebook 03 will use it as an irradiance-source variable for lag, delta, rolling and ramp-proxy features."
+  leakage_risk_patterns:
+    - "ramp_rate_pu"
+    - "future"
+    - "lead"
+    - "t_plus"
+    - "target"
+    - "label"
+    - "centered"
+    - "rolling_center"
+
+physics_features:
+  lag_steps_minutes: [1, 5, 15]
+  rolling_windows_minutes: [5, 15, 60]
+  rolling_min_periods_policy: "full_window_then_drop_warmup_rows"
+  safe_division_epsilon: 1.0e-6
+  include_target_lags: false
+  daylight_elevation_threshold_deg: 0.0
+  productive_power_threshold_kw: 0.05
+  nominal_temperature_degC: 25.0
+  saturation_power_fraction: 0.98
+
+splits:
+  strategy: "chronological"
+  train_fraction: 0.70
+  validation_fraction: 0.15
+  test_fraction: 0.15
+  random_shuffle: false
+
+lookback_horizon:
+  lookbacks: [1, 8, 16, 32, 64]
+  horizons: [1, 8, 16, 32, 64]
+  horizon_definition: "direct_single_target_at_t_plus_H"
+
+metrics:
+  official_nrmse_denominator: 2.0
+  official_nrmse_formula: "RMSE / 2"
+  include_skill_score_vs_persistence: true
+  skill_score_formula: "1 - (RMSE_model / RMSE_persistence)"
+
+staging:
+  smoke_test:
+    clearml_logging: false
+    dataset_variant: "selected_physics"
+    lookback: 8
+    horizon: 1
+    model: "ridge"
+  exploratory:
+    status_tag: "exploratory"
+    primary_dataset_variant: "selected_physics"
+    representative_pairs:
+      - {lookback: 1, horizon: 1}
+      - {lookback: 8, horizon: 1}
+      - {lookback: 8, horizon: 8}
+      - {lookback: 16, horizon: 8}
+      - {lookback: 32, horizon: 16}
+      - {lookback: 64, horizon: 32}
+      - {lookback: 64, horizon: 64}
+  final:
+    status_tag: "final"
+    use_validation_for_selection: true
+    protect_test_split: true
+
+clearml:
+  enabled_local: true
+  enabled_kaggle: true
+  project_name: "PV_ramps_forecasting_MG_VF"
+  scientific_project_root: "PV_RampRate_Forecasting"
+  subprojects:
+    "01": "PV_RampRate_Forecasting/01_DataAudit"
+    "02": "PV_RampRate_Forecasting/02_TargetFeatures"
+    "03": "PV_RampRate_Forecasting/03_PhysicsFeatures"
+    "04": "PV_RampRate_Forecasting/04_SplitWindowing"
+    "05": "PV_RampRate_Forecasting/05_Baselines"
+    "06": "PV_RampRate_Forecasting/06_Statistical"
+    "07": "PV_RampRate_Forecasting/07_ClassicalML"
+    "08": "PV_RampRate_Forecasting/08_DeepLearning"
+    "09": "PV_RampRate_Forecasting/09_FinalComparison"
+
+kaggle:
+  enabled: true
+  gpu_enabled_default: true
+  tpu_enabled_default: false
+  internet_enabled_default: true
+  default_gpu: "p100"
+  clearml_secrets_required: true
+  clearml_secret_failure_policy: "save_outputs_and_fail_gracefully"
+
+classical_ml:
+  notebook: "07_classical_ml_models"
+  backend_priority:
+    - "cuml_rapids_if_available_and_compatible"
+    - "scikit_learn_fallback"
+    - "xgboost_gpu_if_available_else_xgboost_cpu"
+  required_backend_result_fields:
+    - "backend_requested"
+    - "backend_used"
+    - "fallback_used"
+    - "fallback_reason"
+    - "hardware_used"
+    - "gpu_available"
+  final_training_requires_full_chronological_train_split: true
+  expensive_config_policy: "mark_aborted_expensive_or_run_smoke_test; never silently sample-cap final results"
+
+deep_learning:
+  notebook: "08_deep_learning_models"
+  mandatory_models:
+    - "MLP/ANN"
+    - "LSTM"
+    - "BiLSTM"
+    - "GRU"
+    - "CNN1D"
+    - "CNN-LSTM"
+  required_result_fields:
+    - "model_name"
+    - "dataset_variant"
+    - "resolution"
+    - "lookback"
+    - "horizon"
+    - "train_metrics"
+    - "validation_metrics"
+    - "test_metrics"
+    - "training_time"
+    - "gpu_used"
+    - "clearml_task_id"
+    - "status"
+  preferred_execution_location: "kaggle_gpu_for_heavy_training"
+
+progressive_training:
+  supported_resolutions:
+    - "one_minute"
+    - "one_hour"
+  dataset_variants:
+    - "full"
+    - "selected"
+    - "full_physics"
+    - "selected_physics"
+  staged_funnel:
+    - "prepare_all_8_resolution_variant_datasets"
+    - "fast_screening_on_all_8_datasets_with_unified_parameters"
+    - "promote_best_datasets_using_validation_results_only"
+    - "train_heavy_classical_ml_on_promoted_datasets"
+    - "train_deep_learning_on_best_promoted_datasets_using_kaggle_gpu"
+  final_results_sample_cap_policy: "forbidden; use full chronological train split or mark status=aborted_expensive"
+  hardware_check_required_before_heavy_training: true
+
+notebooks:
+  sequence:
+    - {id: "01", slug: "01_data_audit_resolution_cleaning", title: "Data Audit, Resolution Suitability Analysis and Cleaning"}
+    - {id: "02", slug: "02_target_construction_feature_selection", title: "Target Construction and Feature Selection"}
+    - {id: "03", slug: "03_physics_informed_features", title: "Physics-Informed Features and Feature Engineering"}
+    - {id: "04", slug: "04_split_scaling_windowing_experiment_design", title: "Chronological Split, Train-only Scaling, Windowing and Experiment Design"}
+    - {id: "05", slug: "05_baseline_models", title: "Baseline Models"}
+    - {id: "06", slug: "06_statistical_time_series_models", title: "Statistical Time-Series Models"}
+    - {id: "07", slug: "07_classical_ml_models", title: "Classical Machine Learning Models"}
+    - {id: "08", slug: "08_deep_learning_models", title: "Deep Learning Models"}
+    - {id: "09", slug: "09_global_comparison_final_decision", title: "Global Comparison and Final Decision"}

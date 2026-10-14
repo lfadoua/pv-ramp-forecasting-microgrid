@@ -1,0 +1,5 @@
+metric,difference_definition,point_difference,ci_lower,ci_upper,confidence_level,bootstrap_replicates,block,day_blocks,improvement_sign,conclusion
+RMSE,high_frequency_minus_existing_reference,-0.007107049232544335,-0.008056511700893422,-0.006176008303569374,0.95,1000,complete_day,69,negative,high_frequency
+MAE,high_frequency_minus_existing_reference,-0.0027765317873269767,-0.0032860337357935063,-0.002290853514815215,0.95,1000,complete_day,69,negative,high_frequency
+strong_ramp_RMSE,high_frequency_minus_existing_reference,-0.017946579614908684,-0.019642726088254715,-0.016105544997662136,0.95,1000,complete_day,69,negative,high_frequency
+directional_accuracy,high_frequency_minus_existing_reference,0.011783778306905135,0.0037675507971621893,0.020187987086546982,0.95,1000,complete_day,69,positive,high_frequency

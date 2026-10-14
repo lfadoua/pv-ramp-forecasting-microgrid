@@ -1,0 +1,5 @@
+# Distributed classical and neural training backends; select for your platform.
+xgboost>=2.0
+tensorflow>=2.16
+reportlab>=4.0
+psutil>=5.9
